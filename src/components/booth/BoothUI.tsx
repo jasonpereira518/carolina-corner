@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
 import { useBooth } from "@/components/booth/BoothProvider";
 import { routeForStep } from "@/lib/booth/flow";
 import { useRouter } from "next/navigation";
@@ -121,17 +122,22 @@ export function SecondaryButton({
 
 export function DoorCard({
   title,
-  promptLabel,
+  icon,
+  count,
   onClick,
 }: {
   title: string;
-  promptLabel: string;
+  icon: string;
+  count: number;
   onClick: () => void;
 }) {
   return (
     <button type="button" className="door-card" onClick={onClick}>
+      <span className="door-count-badge">{count}</span>
+      <span className="door-icon" aria-hidden="true">
+        {icon}
+      </span>
       <span className="door-tag">{title}</span>
-      <span className="door-label">{promptLabel}</span>
     </button>
   );
 }
@@ -153,8 +159,73 @@ export function TonePortrait({
   tone: PromptDefinition["phaseTone"];
   alt: string;
 }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  function setPortraitMotion(clientX: number, clientY: number) {
+    const card = cardRef.current;
+    if (!card) {
+      return;
+    }
+
+    const rect = card.getBoundingClientRect();
+    const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+    const tiltX = (0.5 - y) * 22;
+    const tiltY = (x - 0.5) * 22;
+
+    card.style.setProperty("--rotate-x", `${tiltX.toFixed(2)}deg`);
+    card.style.setProperty("--rotate-y", `${tiltY.toFixed(2)}deg`);
+    card.style.setProperty("--glare-x", `${(x * 100).toFixed(2)}%`);
+    card.style.setProperty("--glare-y", `${(y * 100).toFixed(2)}%`);
+  }
+
+  function onPointerEnter() {
+    const card = cardRef.current;
+    if (!card) {
+      return;
+    }
+
+    card.style.setProperty("--lift", "8px");
+    card.style.setProperty("--glare-opacity", "0.35");
+  }
+
+  function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === "touch") {
+      return;
+    }
+
+    setPortraitMotion(event.clientX, event.clientY);
+  }
+
+  function onMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+    setPortraitMotion(event.clientX, event.clientY);
+  }
+
+  function onPointerLeave() {
+    const card = cardRef.current;
+    if (!card) {
+      return;
+    }
+
+    card.style.setProperty("--rotate-x", "0deg");
+    card.style.setProperty("--rotate-y", "0deg");
+    card.style.setProperty("--lift", "0px");
+    card.style.setProperty("--glare-opacity", "0");
+    card.style.setProperty("--glare-x", "50%");
+    card.style.setProperty("--glare-y", "50%");
+  }
+
   return (
-    <div className="portrait-card">
+    <div
+      ref={cardRef}
+      className="portrait-card"
+      onPointerEnter={onPointerEnter}
+      onPointerMove={onPointerMove}
+      onPointerLeave={onPointerLeave}
+      onMouseMove={onMouseMove}
+      onMouseEnter={onPointerEnter}
+      onMouseLeave={onPointerLeave}
+    >
       <Image
         src={toneImage[tone]}
         alt={alt}
@@ -162,6 +233,7 @@ export function TonePortrait({
         height={720}
         className="portrait-image"
       />
+      <span className="portrait-glare" aria-hidden="true" />
     </div>
   );
 }

@@ -19,6 +19,11 @@ export default function PromptsPage() {
   const { content, remainingPrompts, goToStep, selectPrompt, skipRemainingPrompts } =
     useBooth();
   const router = useRouter();
+  const categoryIcon: Record<PromptCategoryId, string> = {
+    belonging: "⌂",
+    courage: "✦",
+    "life-story": "◉",
+  };
 
   useEffect(() => {
     if (remainingPrompts.length === 0) {
@@ -77,7 +82,8 @@ export default function PromptsPage() {
                 <DoorCard
                   key={category.id}
                   title={category.label}
-                  promptLabel={`${category.description} (${count} available)`}
+                  icon={categoryIcon[category.id]}
+                  count={count}
                   onClick={() => chooseCategory(category.id)}
                 />
               );

@@ -314,13 +314,16 @@ h2 {
   border-radius: 18px;
   border: none;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   display: grid;
-  align-content: space-between;
+  justify-items: center;
+  align-content: center;
+  gap: 0.7rem;
   color: #fff;
   background: linear-gradient(165deg, #13294b 15%, #2d5f94 70%);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   transition: transform 120ms ease, box-shadow 120ms ease;
+  position: relative;
 }
 
 .door-card:hover {
@@ -330,14 +333,38 @@ h2 {
 
 .door-tag {
   font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  line-height: 1.2;
 }
 
-.door-label {
-  font-size: 1.05rem;
-  line-height: 1.24;
+.door-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  color: #d3ecff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.door-count-badge {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  min-width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #13294b;
+  background: #f8f4e8;
 }
 
 .quote {
@@ -354,11 +381,27 @@ h2 {
 }
 
 .portrait-card {
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --lift: 0px;
+  --glare-opacity: 0;
+  --glare-x: 50%;
+  --glare-y: 50%;
   width: min(480px, 100%);
+  position: relative;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(19, 41, 75, 0.2);
   box-shadow: 0 12px 28px rgba(16, 31, 46, 0.2);
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  transform: perspective(960px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y))
+    translateY(calc(-1 * var(--lift)));
+  transition: transform 120ms ease-out, box-shadow 120ms ease-out;
+}
+
+.portrait-card:hover {
+  box-shadow: 0 22px 40px rgba(16, 31, 46, 0.34);
 }
 
 .portrait-image {
@@ -366,6 +409,21 @@ h2 {
   display: block;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+.portrait-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--glare-opacity);
+  background: radial-gradient(
+    circle at var(--glare-x) var(--glare-y),
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 255, 255, 0.2) 24%,
+    rgba(255, 255, 255, 0) 58%
+  );
+  mix-blend-mode: screen;
+  transition: opacity 180ms ease-out;
 }
 
 .portrait-strip {

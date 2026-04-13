@@ -10,15 +10,37 @@ import { analyticsEventMap, trackEvent } from "@/lib/booth/analytics";
 import { routeForStep } from "@/lib/booth/flow";
 
 export default function PromptRecordPage() {
-  const { content, selectedPrompt, session, saveRecording, goToStep } = useBooth();
+  const { content, selectedPrompt, session, saveRecording, goToStep, setBackOverride } =
+    useBooth();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const {
     videoRef,
+    isRecording,
     secondsRemaining,
     start: startRecording,
     stop: stopRecording,
+    cancel: cancelRecording,
   } = useRecorder();
+
+  useEffect(() => {
+    setBackOverride(async () => {
+      if (isRecording) {
+        const confirmed = window.confirm(
+          "You are currently recording. Going back now will discard this take. Continue?",
+        );
+        if (!confirmed) {
+          return "stay";
+        }
+        cancelRecording();
+      }
+      return "prompt-preview";
+    });
+
+    return () => {
+      setBackOverride(null);
+    };
+  }, [cancelRecording, isRecording, setBackOverride]);
 
   useEffect(() => {
     if (!selectedPrompt) {

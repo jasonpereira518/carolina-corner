@@ -130,6 +130,40 @@ h2 {
   gap: 0.7rem;
 }
 
+.sync-banner {
+  border: 1px solid rgba(19, 41, 75, 0.24);
+  background: rgba(255, 248, 223, 0.95);
+  border-radius: 14px;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.back-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.back-arrow-btn {
+  border: 1px solid rgba(19, 41, 75, 0.2);
+  background: rgba(255, 255, 255, 0.45);
+  color: rgba(19, 41, 75, 0.8);
+  border-radius: 999px;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: background-color 120ms ease, color 120ms ease, transform 120ms ease;
+}
+
+.back-arrow-btn:hover {
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(19, 41, 75, 1);
+  transform: translateX(-1px);
+}
+
 .brand-mark {
   width: 2.2rem;
   height: 2.2rem;
@@ -319,8 +353,34 @@ h2 {
   font-weight: 700;
 }
 
+.portrait-card {
+  width: min(480px, 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(19, 41, 75, 0.2);
+  box-shadow: 0 12px 28px rgba(16, 31, 46, 0.2);
+}
+
+.portrait-image {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.portrait-strip {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.portrait-strip .portrait-card {
+  width: 100%;
+}
+
 .camera-frame {
   width: min(740px, 100%);
+  margin-inline: auto;
   border-radius: 18px;
   overflow: hidden;
   background: #0d1725;
@@ -335,6 +395,8 @@ h2 {
 }
 
 .camera-video.playback {
+  width: min(740px, 100%);
+  margin-inline: auto;
   border-radius: 16px;
 }
 
@@ -360,5 +422,9 @@ h2 {
 
   .booth-shell {
     padding: 1rem;
+  }
+
+  .portrait-strip {
+    grid-template-columns: 1fr;
   }
 }

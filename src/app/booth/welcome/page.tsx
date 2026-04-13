@@ -3,7 +3,12 @@
 import { useRouter } from "next/navigation";
 import { BoothStepGate } from "@/components/booth/BoothStepGate";
 import { useBooth } from "@/components/booth/BoothProvider";
-import { BrandHeader, BoothShell, PrimaryButton } from "@/components/booth/BoothUI";
+import {
+  BrandHeader,
+  BoothShell,
+  PortraitTriptych,
+  PrimaryButton,
+} from "@/components/booth/BoothUI";
 import { routeForStep } from "@/lib/booth/flow";
 
 export default function WelcomePage() {
@@ -28,6 +33,7 @@ export default function WelcomePage() {
               <li key={line}>{line}</li>
             ))}
           </ul>
+          <PortraitTriptych />
           <PrimaryButton onClick={handleContinue}>{content.copy.welcome.cta}</PrimaryButton>
         </section>
       </BoothShell>

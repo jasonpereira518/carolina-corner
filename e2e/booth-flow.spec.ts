@@ -44,7 +44,7 @@ test("happy path with one submitted prompt", async ({ page }) => {
   await page.getByRole("button", { name: "Continue" }).click();
   await fillUserInfo(page);
   await page.getByRole("button", { name: "Accept" }).click();
-  await page.getByRole("button", { name: /Prompt 1/ }).click();
+  await page.getByRole("button", { name: /Belonging & Home/ }).click();
   await page.getByRole("button", { name: "Next", exact: true }).click();
   await page.waitForURL("**/booth/prompt/quote");
   await page.getByRole("button", { name: "Next", exact: true }).click();
@@ -72,7 +72,7 @@ test("multi-prompt path with try again", async ({ page }) => {
   await fillUserInfo(page);
   await page.getByRole("button", { name: "Accept" }).click();
 
-  await page.getByRole("button", { name: /Prompt 2/ }).click();
+  await page.getByRole("button", { name: /Courage & Change/ }).click();
   await page.getByRole("button", { name: "Next", exact: true }).click();
   await page.waitForURL("**/booth/prompt/quote");
   await page.getByRole("button", { name: "Next", exact: true }).click();
@@ -84,7 +84,7 @@ test("multi-prompt path with try again", async ({ page }) => {
   await page.getByRole("button", { name: "Stop" }).click();
   await page.getByRole("button", { name: "Submit" }).click();
 
-  await page.getByRole("button", { name: /Prompt 3/ }).click();
+  await page.getByRole("button", { name: /Life Story/ }).click();
   await page.getByRole("button", { name: "Next", exact: true }).click();
   await page.waitForURL("**/booth/prompt/quote");
   await page.getByRole("button", { name: "Next", exact: true }).click();

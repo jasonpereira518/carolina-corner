@@ -38,6 +38,21 @@ export function useRecorder() {
     setIsRecording(false);
   }, [stopTimer]);
 
+  const cancel = useCallback(() => {
+    stopTimer();
+    const recorder = mediaRecorderRef.current;
+    if (recorder) {
+      recorder.ondataavailable = null;
+      recorder.onstop = null;
+      if (recorder.state !== "inactive") {
+        recorder.stop();
+      }
+    }
+    chunksRef.current = [];
+    setIsRecording(false);
+    stopStream();
+  }, [stopStream, stopTimer]);
+
   const start = useCallback(
     async ({ maxSeconds, onComplete, onError }: StartOptions) => {
       setSecondsRemaining(maxSeconds);
@@ -101,10 +116,9 @@ export function useRecorder() {
 
   useEffect(() => {
     return () => {
-      stopTimer();
-      stopStream();
+      cancel();
     };
-  }, [stopStream, stopTimer]);
+  }, [cancel]);
 
   return {
     videoRef,
@@ -113,5 +127,6 @@ export function useRecorder() {
     supportsMediaRecorder,
     start,
     stop,
+    cancel,
   };
 }

@@ -12,7 +12,8 @@ import {
 } from "@/components/booth/BoothUI";
 import { routeForStep } from "@/lib/booth/flow";
 import { promptById } from "@/lib/booth/content";
-import { PromptId } from "@/lib/booth/types";
+import { pickRandom } from "@/lib/booth/random";
+import { PromptCategoryId, PromptId } from "@/lib/booth/types";
 
 export default function PromptsPage() {
   const { content, remainingPrompts, goToStep, selectPrompt, skipRemainingPrompts } =
@@ -31,6 +32,22 @@ export default function PromptsPage() {
     router.push(routeForStep("prompt-reveal"));
   }
 
+  async function chooseCategory(categoryId: PromptCategoryId) {
+    const availableInCategory = remainingPrompts.filter(
+      (promptId) => promptById[promptId].categoryId === categoryId,
+    );
+
+    if (availableInCategory.length === 0) {
+      return;
+    }
+
+    const randomPromptId = pickRandom(availableInCategory);
+    if (!randomPromptId) {
+      return;
+    }
+    await choosePrompt(randomPromptId);
+  }
+
   async function skip() {
     await skipRemainingPrompts();
     await goToStep("email");
@@ -45,14 +62,23 @@ export default function PromptsPage() {
           <h1>{content.copy.prompts.title}</h1>
           <p className="lead">{content.copy.prompts.body}</p>
           <div className="door-grid">
-            {remainingPrompts.map((promptId) => {
-              const prompt = promptById[promptId];
+            {content.promptCategories
+              .filter((category) =>
+                remainingPrompts.some(
+                  (promptId) => promptById[promptId].categoryId === category.id,
+                ),
+              )
+              .map((category) => {
+                const count = remainingPrompts.filter(
+                  (promptId) => promptById[promptId].categoryId === category.id,
+                ).length;
+
               return (
                 <DoorCard
-                  key={promptId}
-                  title={prompt.title}
-                  promptLabel={prompt.revealText}
-                  onClick={() => choosePrompt(promptId)}
+                  key={category.id}
+                  title={category.label}
+                  promptLabel={`${category.description} (${count} available)`}
+                  onClick={() => chooseCategory(category.id)}
                 />
               );
             })}

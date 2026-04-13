@@ -53,6 +53,37 @@ export function routeForStep(step: BoothStep): string {
   return stepRoutes[step];
 }
 
+export function previousStepFor(step: BoothStep): BoothStep {
+  switch (step) {
+    case "welcome":
+      return "welcome";
+    case "user-info":
+      return "welcome";
+    case "legal":
+      return "user-info";
+    case "decline":
+      return "legal";
+    case "prompts":
+      return "legal";
+    case "prompt-reveal":
+      return "prompts";
+    case "prompt-quote":
+      return "prompt-reveal";
+    case "prompt-preview":
+      return "prompt-quote";
+    case "prompt-record":
+      return "prompt-preview";
+    case "prompt-review":
+      return "prompt-preview";
+    case "email":
+      return "prompts";
+    case "goodbye":
+      return "email";
+    default:
+      return "welcome";
+  }
+}
+
 export function nextStepAfterPromptSubmit(
   completedCount: number,
   totalPrompts: number,

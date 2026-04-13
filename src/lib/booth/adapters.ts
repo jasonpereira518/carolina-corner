@@ -11,7 +11,7 @@ function createSessionBase(): BoothSession {
   const now = new Date().toISOString();
 
   return {
-    id: `session_${crypto.randomUUID()}`,
+    id: crypto.randomUUID(),
     step: "welcome",
     userProfile: null,
     legalAccepted: null,
@@ -26,8 +26,7 @@ function createSessionBase(): BoothSession {
 class MockSessionStoreAdapter implements SessionStoreAdapter {
   private store = new Map<string, BoothSession>();
 
-  async createSession(): Promise<BoothSession> {
-    const session = createSessionBase();
+  async createSession(session: BoothSession): Promise<BoothSession> {
     this.store.set(session.id, session);
     return session;
   }

@@ -3,7 +3,12 @@
 import { useRouter } from "next/navigation";
 import { BoothStepGate } from "@/components/booth/BoothStepGate";
 import { useBooth } from "@/components/booth/BoothProvider";
-import { BrandHeader, BoothShell, PrimaryButton } from "@/components/booth/BoothUI";
+import {
+  BrandHeader,
+  BoothShell,
+  PrimaryButton,
+  TonePortrait,
+} from "@/components/booth/BoothUI";
 import { routeForStep } from "@/lib/booth/flow";
 
 export default function GoodbyePage() {
@@ -11,7 +16,10 @@ export default function GoodbyePage() {
   const router = useRouter();
 
   async function restart() {
-    await finishExperience();
+    const finalized = await finishExperience();
+    if (!finalized) {
+      return;
+    }
     await resetSession();
     await goToStep("welcome");
     router.push(routeForStep("welcome"));
@@ -23,6 +31,7 @@ export default function GoodbyePage() {
         <BrandHeader label={content.theme.logoWordmark} />
         <section className="stack center quote">
           <h1>{content.copy.goodbye.title}</h1>
+          <TonePortrait tone="pine" alt="Reflective portrait style visual" />
           <p className="lead">
             &quot;Do not go where the path may lead, go instead where there is no path and
             leave a trail.&quot;

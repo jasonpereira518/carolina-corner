@@ -12,6 +12,26 @@ export const boothContent: BoothContent = {
     },
   },
   recordingSecondsLimit: 120,
+  promptCategories: [
+    {
+      id: "belonging",
+      label: "Belonging & Home",
+      description: "Moments and places where you feel grounded, seen, and at home.",
+      phaseTone: "coral",
+    },
+    {
+      id: "courage",
+      label: "Courage & Change",
+      description: "Stories about risk, growth, and stepping into uncertainty.",
+      phaseTone: "moss",
+    },
+    {
+      id: "life-story",
+      label: "Life Story",
+      description: "Big-picture reflections about your journey so far.",
+      phaseTone: "pine",
+    },
+  ],
   copy: {
     welcome: {
       eyebrow: "Welcome to Carolina Corner",
@@ -40,8 +60,8 @@ export const boothContent: BoothContent = {
       cta: "Back to start",
     },
     prompts: {
-      title: "Pick a door. Tell a story.",
-      body: "Choose any available prompt. Completed prompts disappear from this screen.",
+      title: "Choose a category. Get a surprise prompt.",
+      body: "Each category has a prompt bank. We’ll randomly choose one for you when you click.",
       skipCta: "No thanks",
     },
     emailComing: {
@@ -86,8 +106,9 @@ export const boothContent: BoothContent = {
   },
   prompts: [
     {
-      id: "prompt-1",
-      title: "Prompt 1",
+      id: "belonging-1",
+      categoryId: "belonging",
+      title: "Belonging Prompt",
       revealText: "Where in Chapel Hill do you feel most at home? Where can you be your fullest self?",
       quoteText:
         "The ache for home lives in all of us, the safe place where we can go as we are.",
@@ -98,8 +119,37 @@ export const boothContent: BoothContent = {
       phaseTone: "coral",
     },
     {
-      id: "prompt-2",
-      title: "Prompt 2",
+      id: "belonging-2",
+      categoryId: "belonging",
+      title: "Belonging Prompt",
+      revealText:
+        "Tell a story about someone who helped you feel like you belonged when you needed it most.",
+      quoteText:
+        "I sustain myself with the love of family.",
+      quoteAuthor: "Maya Angelou",
+      previewGuidance: "Let the details lead. Start when you are ready.",
+      reviewHeadline: "That was powerful.",
+      reviewBody: "Submit or try again. Both choices are welcome.",
+      phaseTone: "coral",
+    },
+    {
+      id: "belonging-3",
+      categoryId: "belonging",
+      title: "Belonging Prompt",
+      revealText:
+        "What tradition, ritual, or place helps you reconnect with yourself?",
+      quoteText:
+        "Belonging starts with self-acceptance.",
+      quoteAuthor: "Brene Brown",
+      previewGuidance: "Share one moment that says it all.",
+      reviewHeadline: "Beautifully shared.",
+      reviewBody: "Submit if it feels right, or try another take.",
+      phaseTone: "coral",
+    },
+    {
+      id: "courage-1",
+      categoryId: "courage",
+      title: "Courage Prompt",
       revealText:
         "When did you take a real risk, challenge your own assumptions, or choose courage over comfort?",
       quoteText: "Transformation is not accomplished by tentative wading at the edge.",
@@ -110,8 +160,37 @@ export const boothContent: BoothContent = {
       phaseTone: "moss",
     },
     {
-      id: "prompt-3",
-      title: "Prompt 3",
+      id: "courage-2",
+      categoryId: "courage",
+      title: "Courage Prompt",
+      revealText:
+        "Describe a time you changed your mind after truly listening to someone else.",
+      quoteText:
+        "The willingness to show up changes us.",
+      quoteAuthor: "Brene Brown",
+      previewGuidance: "Focus on the turning point in your story.",
+      reviewHeadline: "Thank you for sharing that.",
+      reviewBody: "Submit now, or refine it with another recording.",
+      phaseTone: "moss",
+    },
+    {
+      id: "courage-3",
+      categoryId: "courage",
+      title: "Courage Prompt",
+      revealText:
+        "Tell a story about a moment when you acted before you felt fully ready.",
+      quoteText:
+        "Fortune sides with those who dare.",
+      quoteAuthor: "Virgil",
+      previewGuidance: "One honest moment is enough. Press start when ready.",
+      reviewHeadline: "That took courage.",
+      reviewBody: "You can submit this or take another pass.",
+      phaseTone: "moss",
+    },
+    {
+      id: "life-story-1",
+      categoryId: "life-story",
+      title: "Life Story Prompt",
       revealText: "What is the two-minute version of your life story?",
       quoteText:
         "What matters in life is not what happens to you, but what you remember and how you remember it.",
@@ -120,6 +199,34 @@ export const boothContent: BoothContent = {
         "Stutters, pauses, and revisions are welcome. Start when you are ready.",
       reviewHeadline: "Well done.",
       reviewBody: "There is no perfect answer. Submit or take another pass.",
+      phaseTone: "pine",
+    },
+    {
+      id: "life-story-2",
+      categoryId: "life-story",
+      title: "Life Story Prompt",
+      revealText:
+        "If someone met you for the first time today, what chapter of your story are you in?",
+      quoteText:
+        "We are all stories in the end.",
+      quoteAuthor: "Steven Moffat",
+      previewGuidance: "Start with your chapter title, then explain why.",
+      reviewHeadline: "That landed really well.",
+      reviewBody: "Submit now or try one more version.",
+      phaseTone: "pine",
+    },
+    {
+      id: "life-story-3",
+      categoryId: "life-story",
+      title: "Life Story Prompt",
+      revealText:
+        "What is one experience that changed how you see yourself?",
+      quoteText:
+        "Memory is the diary we all carry about with us.",
+      quoteAuthor: "Oscar Wilde",
+      previewGuidance: "Keep it real. Start whenever you are ready.",
+      reviewHeadline: "Well said.",
+      reviewBody: "Submit if this captures it, or record again.",
       phaseTone: "pine",
     },
   ],

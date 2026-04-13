@@ -12,7 +12,15 @@ export type BoothStep =
   | "email"
   | "goodbye";
 
-export type PromptId = "prompt-1" | "prompt-2" | "prompt-3";
+export type PromptId = string;
+export type PromptCategoryId = "belonging" | "courage" | "life-story";
+
+export interface PromptCategoryDefinition {
+  id: PromptCategoryId;
+  label: string;
+  description: string;
+  phaseTone: "coral" | "moss" | "pine";
+}
 
 export interface UserProfile {
   firstName: string;
@@ -22,6 +30,7 @@ export interface UserProfile {
 
 export interface PromptDefinition {
   id: PromptId;
+  categoryId: PromptCategoryId;
   title: string;
   revealText: string;
   quoteText: string;
@@ -113,6 +122,7 @@ export interface ScreenCopy {
 
 export interface BoothContent {
   theme: ThemeConfig;
+  promptCategories: PromptCategoryDefinition[];
   prompts: PromptDefinition[];
   legal: LegalContent;
   copy: ScreenCopy;
@@ -120,7 +130,7 @@ export interface BoothContent {
 }
 
 export interface SessionStoreAdapter {
-  createSession(): Promise<BoothSession>;
+  createSession(session: BoothSession): Promise<BoothSession>;
   updateSession(session: BoothSession): Promise<BoothSession>;
   markComplete(sessionId: string): Promise<void>;
 }

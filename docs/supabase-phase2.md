@@ -1,8 +1,21 @@
 # Supabase Phase 2 Activation Guide
 
-## Planned tables
+## Current adapter status
+- `SupabaseSessionStoreAdapter` implemented for create/update/complete in `src/lib/booth/supabaseAdapters.ts`.
+- `SupabaseRecordingStoreAdapter` implemented for save/queue/submit status updates.
+- `SupabaseEmailAdapter` implemented via edge function invokes:
+  - `queue-booth-email`
+  - `send-booth-preview-link`
+
+Supabase mode is enabled only when:
+- `NEXT_PUBLIC_USE_SUPABASE=true`
+- `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are set
+
+## Required tables
 - `booth_sessions`
-  - `id` uuid pk
+  - `id` text pk
+  - `step` text
+  - `selected_prompt_id` text
   - `created_at` timestamptz
   - `updated_at` timestamptz
   - `status` text (`active`, `completed`)
@@ -11,25 +24,56 @@
   - `email` text
   - `legal_accepted` boolean
   - `completed_prompt_ids` text[]
+  - `recordings_json` text
 - `booth_recordings`
-  - `id` uuid pk
-  - `session_id` uuid fk -> `booth_sessions.id`
+  - `id` text pk
+  - `session_id` text fk -> `booth_sessions.id`
   - `prompt_id` text
   - `duration_seconds` int
-  - `storage_path` text
+  - `blob_url` text
   - `status` text (`local`, `queued`, `submitted`)
   - `created_at` timestamptz
+  - `updated_at` timestamptz
+
+Use:
+- [schema.sql](/Users/jasonpereira/Jason/UNC/PLCY%20130/Carolina%20Corner/carolina-corner/supabase/schema.sql)
+- [policies.sql](/Users/jasonpereira/Jason/UNC/PLCY%20130/Carolina%20Corner/carolina-corner/supabase/policies.sql)
 
 ## Planned storage buckets
 - `booth-recordings-private` (private, signed URL access)
 - `booth-recordings-public-preview` (optional)
 
-## Planned edge functions
-- `queue-booth-email` to enqueue delivery payloads
-- `send-booth-preview-link` for optional interim links
+## Edge functions
+- `queue-booth-email`: stores a queued delivery job in `booth_email_jobs`
+- `send-booth-preview-link`: stores a queued preview-link job in `booth_email_jobs`
+- Function sources:
+  - [queue-booth-email/index.ts](/Users/jasonpereira/Jason/UNC/PLCY%20130/Carolina%20Corner/carolina-corner/supabase/functions/queue-booth-email/index.ts)
+  - [send-booth-preview-link/index.ts](/Users/jasonpereira/Jason/UNC/PLCY%20130/Carolina%20Corner/carolina-corner/supabase/functions/send-booth-preview-link/index.ts)
 
-## Adapter migration strategy
-1. Implement methods in `src/lib/booth/supabaseAdapters.ts`.
-2. Keep existing interface contracts unchanged.
-3. Swap provider wiring from `mockBoothAdapters` to Supabase adapters behind an env flag.
-4. Add retries and error surfacing in UI once real network IO is active.
+Both functions now:
+- Insert a `queued` row in `booth_email_jobs`
+- Attempt provider send immediately
+- Update row to `sent` or `failed` with metadata
+
+## Email provider env vars
+- Required:
+  - `EMAIL_FROM`
+  - `EMAIL_PROVIDER` (`resend` or `sendgrid`; defaults to `resend`)
+- For Resend:
+  - `RESEND_API_KEY`
+- For SendGrid:
+  - `SENDGRID_API_KEY`
+
+## Activation checklist
+1. Run `supabase/schema.sql` in your Supabase SQL editor.
+2. Run `supabase/policies.sql` in your Supabase SQL editor.
+3. Deploy edge functions:
+   - `supabase functions deploy queue-booth-email`
+   - `supabase functions deploy send-booth-preview-link`
+   - Set function secrets (example):
+     - `supabase secrets set EMAIL_PROVIDER=resend EMAIL_FROM='Carolina Corner <noreply@yourdomain.com>' RESEND_API_KEY=...`
+4. Set `.env.local`:
+   - `NEXT_PUBLIC_SUPABASE_URL=...`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY=...`
+   - `NEXT_PUBLIC_USE_SUPABASE=true`
+5. Restart `npm run dev`.

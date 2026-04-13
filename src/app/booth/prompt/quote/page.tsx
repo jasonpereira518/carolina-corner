@@ -3,7 +3,12 @@
 import { useRouter } from "next/navigation";
 import { BoothStepGate } from "@/components/booth/BoothStepGate";
 import { useBooth } from "@/components/booth/BoothProvider";
-import { BrandHeader, BoothShell, PrimaryButton } from "@/components/booth/BoothUI";
+import {
+  BrandHeader,
+  BoothShell,
+  PrimaryButton,
+  TonePortrait,
+} from "@/components/booth/BoothUI";
 import { routeForStep } from "@/lib/booth/flow";
 
 export default function PromptQuotePage() {
@@ -24,6 +29,10 @@ export default function PromptQuotePage() {
       <BoothShell tone={selectedPrompt.phaseTone}>
         <BrandHeader label={content.theme.logoWordmark} />
         <section className="stack center quote">
+          <TonePortrait
+            tone={selectedPrompt.phaseTone}
+            alt={`${selectedPrompt.quoteAuthor} themed portrait background`}
+          />
           <p className="lead">{selectedPrompt.quoteText}</p>
           <p className="quote-author">{selectedPrompt.quoteAuthor}</p>
           <PrimaryButton onClick={next}>Next</PrimaryButton>

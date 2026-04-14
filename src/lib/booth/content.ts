@@ -15,19 +15,19 @@ export const boothContent: BoothContent = {
   promptCategories: [
     {
       id: "belonging",
-      label: "Belonging & Home",
+      label: "Home",
       description: "Moments and places where you feel grounded, seen, and at home.",
       phaseTone: "coral",
     },
     {
       id: "courage",
-      label: "Courage & Change",
+      label: "Courage",
       description: "Stories about risk, growth, and stepping into uncertainty.",
       phaseTone: "moss",
     },
     {
       id: "life-story",
-      label: "Life Story",
+      label: "Self",
       description: "Big-picture reflections about your journey so far.",
       phaseTone: "pine",
     },
@@ -108,7 +108,7 @@ export const boothContent: BoothContent = {
     {
       id: "belonging-1",
       categoryId: "belonging",
-      title: "Belonging Prompt",
+      title: "Home Prompt",
       revealText: "Where in Chapel Hill do you feel most at home? Where can you be your fullest self?",
       quoteText:
         "The ache for home lives in all of us, the safe place where we can go as we are.",
@@ -121,7 +121,7 @@ export const boothContent: BoothContent = {
     {
       id: "belonging-2",
       categoryId: "belonging",
-      title: "Belonging Prompt",
+      title: "Home Prompt",
       revealText:
         "Tell a story about someone who helped you feel like you belonged when you needed it most.",
       quoteText:
@@ -135,7 +135,7 @@ export const boothContent: BoothContent = {
     {
       id: "belonging-3",
       categoryId: "belonging",
-      title: "Belonging Prompt",
+      title: "Home Prompt",
       revealText:
         "What tradition, ritual, or place helps you reconnect with yourself?",
       quoteText:
@@ -190,7 +190,7 @@ export const boothContent: BoothContent = {
     {
       id: "life-story-1",
       categoryId: "life-story",
-      title: "Life Story Prompt",
+      title: "Self Prompt",
       revealText: "What is the two-minute version of your life story?",
       quoteText:
         "What matters in life is not what happens to you, but what you remember and how you remember it.",
@@ -204,7 +204,7 @@ export const boothContent: BoothContent = {
     {
       id: "life-story-2",
       categoryId: "life-story",
-      title: "Life Story Prompt",
+      title: "Self Prompt",
       revealText:
         "If someone met you for the first time today, what chapter of your story are you in?",
       quoteText:
@@ -218,7 +218,7 @@ export const boothContent: BoothContent = {
     {
       id: "life-story-3",
       categoryId: "life-story",
-      title: "Life Story Prompt",
+      title: "Self Prompt",
       revealText:
         "What is one experience that changed how you see yourself?",
       quoteText:
